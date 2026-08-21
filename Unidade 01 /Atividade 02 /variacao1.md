@@ -44,17 +44,17 @@ Organize a resposta em uma tabela.
 
 Para a primeira versão do sistema, devem ser priorizadas:
 
-Cadastro de equipamentos;
+- Cadastro de equipamentos;
 
-Consulta dos equipamentos;
+- Consulta dos equipamentos;
 
-Registro de localização;
+- Registro de localização;
 
-Registro de empréstimos e devoluções;
+- Registro de empréstimos e devoluções;
 
-Identificação do responsável;
+- Identificação do responsável;
 
-Consulta do histórico.
+- Consulta do histórico.
 
 ---
 
