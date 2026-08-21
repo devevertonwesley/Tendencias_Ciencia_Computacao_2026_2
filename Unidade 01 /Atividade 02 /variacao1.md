@@ -23,7 +23,7 @@ Organize a resposta em uma tabela.
 
 ---
 
-# Resposta obtida
+# Resposta: 
 
 | Categoria               | Descrição                              |
 | ----------------------- | -------------------------------------- |
