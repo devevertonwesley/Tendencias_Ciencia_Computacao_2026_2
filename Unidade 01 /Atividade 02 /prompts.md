@@ -18,36 +18,36 @@ Apresente a resposta de forma organizada, separando os requisitos funcionais dos
 
 Requisitos funcionais:
 
-O sistema deve permitir cadastrar equipamentos.
+- O sistema deve permitir cadastrar equipamentos.
 
-O sistema deve permitir editar e excluir equipamentos.
+- O sistema deve permitir editar e excluir equipamentos.
 
-O sistema deve registrar a localização dos equipamentos.
+- O sistema deve registrar a localização dos equipamentos.
 
-O sistema deve registrar empréstimos e devoluções.
+- O sistema deve registrar empréstimos e devoluções.
 
-O sistema deve identificar o responsável por cada equipamento.
+- O sistema deve identificar o responsável por cada equipamento.
 
-O sistema deve permitir consultar o histórico de movimentações.
+- O sistema deve permitir consultar o histórico de movimentações.
 
-O sistema deve informar a situação do equipamento, como disponível, emprestado ou em manutenção.
+- O sistema deve informar a situação do equipamento, como disponível, emprestado ou em manutenção.
 
-O sistema deve permitir pesquisar equipamentos.
+- O sistema deve permitir pesquisar equipamentos.
 
 ---
 Requisitos não funcionais:
 
-O sistema deve possuir uma interface simples e fácil de utilizar.
+- O sistema deve possuir uma interface simples e fácil de utilizar.
 
-O acesso ao sistema deve ser protegido por autenticação.
+- O acesso ao sistema deve ser protegido por autenticação.
+ 
+- O sistema deve manter os dados dos equipamentos armazenados com segurança.
 
-O sistema deve manter os dados dos equipamentos armazenados com segurança.
+- O sistema deve apresentar bom desempenho nas consultas.
 
-O sistema deve apresentar bom desempenho nas consultas.
+- O sistema deve ser acessível por diferentes dispositivos.
 
-O sistema deve ser acessível por diferentes dispositivos.
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Prompt Melhorado:
 
@@ -98,11 +98,11 @@ O sistema tem como objetivo facilitar o controle e o rastreamento dos equipament
 
 2. Atores envolvidos:
 
-Administrador: responsável pelo gerenciamento geral do sistema e dos equipamentos.
+- Administrador: responsável pelo gerenciamento geral do sistema e dos equipamentos.
 
-Servidor responsável pelo patrimônio: realiza cadastros e acompanha as movimentações.
+- Servidor responsável pelo patrimônio: realiza cadastros e acompanha as movimentações.
 
-Usuário autorizado: realiza consultas e pode registrar empréstimos e devoluções, dependendo de sua permissão.
+- Usuário autorizado: realiza consultas e pode registrar empréstimos e devoluções, dependendo de sua permissão.
 
 ---
 
@@ -148,21 +148,21 @@ RNF05. O sistema deve manter o histórico de movimentações sem permitir altera
 
 5. Principais casos de uso
 
-Cadastrar equipamento;
+- Cadastrar equipamento;
 
-Consultar equipamento;
+- Consultar equipamento;
 
-Ler QR Code;
+- Ler QR Code;
 
-Registrar empréstimo;
+- Registrar empréstimo;
 
-Registrar devolução;
+- Registrar devolução;
 
-Alterar localização;
+- Alterar localização;
 
-Registrar manutenção;
+- Registrar manutenção;
 
-Consultar histórico de movimentações.
+- Consultar histórico de movimentações.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
