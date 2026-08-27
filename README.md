@@ -1,6 +1,6 @@
 # Tendências em Ciência da Computação — 2026.2
 
-## O que é esses Repositório
+## O que é 
 Este repositório reúne materiais práticos e o plano de aulas para a unidade sobre "Engenharia de Prompt" e temas relacionados a tendências em Ciência da Computação, organizado para uso em aulas do semestre 2026.2. Contém o plano de aulas em PDF, atividades (Atividade 01 em PDF; Atividade 02 com materiais em Markdown) e recursos de apoio para aplicação em sala e avaliação.
 
 ## Objetivo
