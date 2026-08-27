@@ -1,33 +1,33 @@
 # Tendências em Ciência da Computação — 2026.2
 
-## O que (What)
+## O que é esses Repositório
 Este repositório reúne materiais práticos e o plano de aulas para a unidade sobre "Engenharia de Prompt" e temas relacionados a tendências em Ciência da Computação, organizado para uso em aulas do semestre 2026.2. Contém o plano de aulas em PDF, atividades (Atividade 01 em PDF; Atividade 02 com materiais em Markdown) e recursos de apoio para aplicação em sala e avaliação.
 
-## Por que (Why)
+## Objetivo
 Objetivo principal: capacitar estudantes a entenderem e aplicarem práticas de engenharia de prompt para sistemas que utilizam IA, definir requisitos mínimos (MVP) para uma aplicação, avaliar resultados gerados por modelos, identificar limites e riscos, e refletir criticamente sobre as respostas produzidas pela IA.
 
-Resultados de aprendizagem esperados:
+Resultados de aprendizagem esperados
 - Identificar usos de IA em casos práticos e distinguir tipos de interação.
 - Construir e iterar prompts (inicial → final) com contexto, restrições e formato de resposta definidos.
 - Comparar variantes de prompts e analisar diferenças nos resultados.
 - Avaliar resultados quanto à adequação, viés e limitações; aplicar revisão humana quando necessário.
 
-## Quem (Who)
+## Público alvo
 Destinado a:
 - Alunos de graduação em Ciência da Computação (disciplina: Tendências em Ciência da Computação — semestre 2026.2).
 - Docentes e monitores que irão aplicar as atividades em sala.
 - Pesquisadores e profissionais interessados em ensino de engenharia de prompt.
 
-## Quando (When)
+## Prazos
 Planejado para o semestre 2026.2. O cronograma detalhado (datas, sequência de aulas e avaliação) está no arquivo de plano de aulas: `PlanodeAulas_Tendencias_EngPrompt_IA_Professora Kadidja_2026_2_5f_Everton.pdf`.
 
-## Onde (Where)
+## Local onde deve estar
 Materiais e estrutura principais neste repositório:
 - `PlanodeAulas_Tendencias_EngPrompt_IA_Professora Kadidja_2026_2_5f_Everton.pdf` — plano de aulas completo.
 - `Unidade 01 /Atividade 01 - Identificando a IA.pdf` — atividade inicial em PDF.
 - `Unidade 01 /Atividade 02 /` — pasta com materiais para praticar engenharia de prompt (readme.md, prompts.md, comparacao.md, reflexao.md, variacoes*.md).
 
-## Como (How)
+## Como será feito
 Sugestão de uso em sala (fluxo mínimo recomendado):
 1. Ler o plano de aulas (PDF) para entender objetivos, critérios de avaliação e cronograma.
 2. Realizar a Atividade 01 (identificação de IA): leitura e exercício em PDF.
