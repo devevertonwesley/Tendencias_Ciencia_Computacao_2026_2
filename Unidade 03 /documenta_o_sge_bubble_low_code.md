@@ -9,8 +9,11 @@ O sistema controla a entrada e saída de veículos pela placa, atualiza o mapa d
 Link: https://parkmanager-62843.bubbleapps.io/version-test
 
 Usuários padrão: 
+
 gestor@sge.com
+
 motorista@sge.com
+
 operador@sge.com
 
 senha: sge@2026
