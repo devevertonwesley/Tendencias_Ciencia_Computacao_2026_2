@@ -6,6 +6,18 @@ O sistema controla a entrada e saída de veículos pela placa, atualiza o mapa d
 
 **Autor:** Everton Wesley Pereira Oliveira
 
+Link: https://parkmanager-62843.bubbleapps.io/version-test/
+
+Usuários padrão:
+
+gestor@sge.com
+
+motorista@sge.com
+
+operador@sge.com
+
+senha: sge@2026
+
 ## 🎯 O Problema e a Proposta
 
 Estacionamentos menores costumam operar no caderno por não conseguirem pagar por cancelas automáticas, sensores de solo ou *softwares* pesados. Isso gera perda de dinheiro no cálculo mental de frações de hora e falta de controle no caixa.
