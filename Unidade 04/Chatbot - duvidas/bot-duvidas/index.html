@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistente TCC — UDF</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg-app: #f8fafc;
+      --bg-sidebar: #f1f5f9;
+      --bg-surface: #ffffff;
+      --bg-surface-hover: #f1f5f9;
+      --bg-elevated: #ffffff;
+      --bg-code: #f8fafc;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --brand: #0f2c59;
+      --brand-hover: #0a1f40;
+      --brand-soft: #e8effa;
+      --brand-border: #c5d6f2;
+      --accent: #1d4ed8;
+      --accent-soft: #eff6ff;
+      --accent-border: #bfdbfe;
+      --user-bubble: #0f2c59;
+      --user-text: #ffffff;
+      --ok-bg: #dcfce7;
+      --ok-text: #166534;
+      --ok-border: #86efac;
+      --warn-bg: #fef3c7;
+      --warn-text: #92400e;
+      --warn-border: #fcd34d;
+      --err-bg: #fee2e2;
+      --err-text: #991b1b;
+      --err-border: #fca5a5;
+      --focus-ring: #2563eb;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 6px 24px rgba(15, 23, 42, 0.08);
+      --backdrop: rgba(15, 23, 42, 0.45);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --sidebar-width: 284px;
+      --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg-app: #0b1120;
+      --bg-sidebar: #0f172a;
+      --bg-surface: #131c31;
+      --bg-surface-hover: #1e293b;
+      --bg-elevated: #172136;
+      --bg-code: #0d1526;
+      --border: #233047;
+      --border-strong: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --brand: #3b82f6;
+      --brand-hover: #2563eb;
+      --brand-soft: rgba(59, 130, 246, 0.16);
+      --brand-border: rgba(96, 165, 250, 0.35);
+      --accent: #60a5fa;
+      --accent-soft: rgba(96, 165, 250, 0.14);
+      --accent-border: rgba(96, 165, 250, 0.32);
+      --user-bubble: #1e3a8a;
+      --user-text: #f8fafc;
+      --ok-bg: rgba(22, 101, 52, 0.32);
+      --ok-text: #86efac;
+      --ok-border: rgba(134, 239, 172, 0.35);
+      --warn-bg: rgba(146, 64, 14, 0.34);
+      --warn-text: #fcd34d;
+      --warn-border: rgba(252, 211, 77, 0.35);
+      --err-bg: rgba(153, 27, 27, 0.34);
+      --err-text: #fca5a5;
+      --err-border: rgba(252, 165, 165, 0.35);
+      --focus-ring: #60a5fa;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+      --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.4);
+      --backdrop: rgba(2, 6, 23, 0.68);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+      transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.12s ease;
+    }
+
+    /* Scrollbars sutis */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 999px;
+    }
+
+    /* Layout principal em tela cheia */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      height: 100dvh;
+      overflow: hidden;
+      z-index: 40;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      padding: 1rem 1rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background-color: var(--brand);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-fechar-drawer {
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      place-items: center;
+      color: var(--text-secondary);
+    }
+
+    .btn-fechar-drawer:hover {
+      background-color: var(--bg-surface-hover);
+      color: var(--text-primary);
+    }
+
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.9rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .nav-section-label {
+      margin: 0 0 0.45rem 0.45rem;
+      font-size: 0.71rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.6rem 0.7rem;
+      border-radius: 10px;
+      text-align: left;
+      border: 1px solid transparent;
+      color: var(--text-primary);
+    }
+
+    .nav-btn:hover {
+      background-color: var(--bg-surface);
+      border-color: var(--border);
+    }
+
+    .nav-btn[aria-pressed="true"] {
+      background-color: var(--brand-soft);
+      border-color: var(--brand-border);
+      color: var(--brand);
+    }
+
+    .nav-btn-icon {
+      width: 18px;
+      height: 18px;
+      margin-top: 0.14rem;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    .nav-btn[aria-pressed="true"] .nav-btn-icon {
+      color: var(--brand);
+    }
+
+    .nav-btn-body {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .nav-btn-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .nav-btn-sub {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+      margin-top: 0.1rem;
+    }
+
+    .nav-btn-validator {
+      align-items: center;
+      padding: 0.54rem 0.7rem;
+    }
+
+    .nav-btn-validator .nav-btn-icon {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .nav-btn-validator:hover {
+      background-color: var(--accent-soft);
+      border-color: var(--accent-border);
+    }
+
+    .nav-btn-validator[aria-pressed="true"] {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .nav-btn-validator[aria-pressed="true"] .nav-btn-icon {
+      color: #ffffff;
+    }
+
+    .sidebar-actions {
+      padding: 0.75rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .action-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.56rem 0.75rem;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .action-btn:hover {
+      background-color: var(--bg-surface-hover);
+      border-color: var(--border-strong);
+    }
+
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    /* Backdrop do drawer mobile */
+    .drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: var(--backdrop);
+      z-index: 30;
+    }
+
+    .drawer-backdrop.visivel {
+      display: block;
+    }
+
+    /* Área principal do chat */
+    .main-area {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      min-width: 0;
+      background-color: var(--bg-app);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg-app);
+      flex-shrink: 0;
+    }
+
+    .btn-menu-mobile {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .btn-menu-mobile:hover {
+      background-color: var(--bg-surface-hover);
+    }
+
+    .mode-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.34rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.81rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      color: var(--text-secondary);
+      max-width: 100%;
+    }
+
+    .mode-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #16a34a;
+      flex-shrink: 0;
+    }
+
+    .mode-indicator.modo-validacao {
+      background-color: var(--accent-soft);
+      border-color: var(--accent-border);
+      color: var(--accent);
+    }
+
+    .mode-indicator.modo-validacao .mode-dot {
+      background-color: var(--accent);
+    }
+
+    .btn-cancelar-pill {
+      display: inline-grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      color: #ffffff;
+      font-size: 0.85rem;
+      line-height: 1;
+      margin-left: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .btn-cancelar-pill:hover {
+      opacity: 0.88;
+    }
+
+    /* Fluxo de mensagens */
+    .chat-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 1.25rem 1rem;
+    }
+
+    .chat-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Tela inicial limpa */
+    .welcome-screen {
+      margin: auto 0;
+      padding: 2.25rem 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.35rem;
+      animation: fadeSlideUp 0.25s ease-out;
+    }
+
+    .welcome-screen[hidden] {
+      display: none;
+    }
+
+    .welcome-emblem {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background-color: var(--brand-soft);
+      border: 1px solid var(--brand-border);
+      color: var(--brand);
+      display: grid;
+      place-items: center;
+    }
+
+    .welcome-heading h2 {
+      margin: 0;
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .welcome-heading p {
+      margin: 0.4rem auto 0;
+      max-width: 520px;
+      font-size: 0.94rem;
+      color: var(--text-secondary);
+    }
+
+    .quick-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.35rem;
+    }
+
+    .quick-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.95rem 1.05rem;
+      border-radius: var(--radius-md);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      text-align: left;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .quick-card:hover {
+      border-color: var(--accent);
+      background-color: var(--accent-soft);
+      transform: translateY(-1px);
+    }
+
+    .quick-card svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .quick-card:hover svg {
+      color: var(--accent);
+    }
+
+    /* Mensagens */
+    .message-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      animation: fadeSlideUp 0.2s ease-out;
+    }
+
+    .message-row.is-user {
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .avatar-bot {
+      background-color: var(--brand-soft);
+      border: 1px solid var(--brand-border);
+      color: var(--brand);
+    }
+
+    .avatar-user {
+      background-color: var(--user-bubble);
+      color: var(--user-text);
+    }
+
+    .message-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      max-width: min(86%, 720px);
+      min-width: 0;
+    }
+
+    .message-row.is-user .message-content {
+      align-items: flex-end;
+    }
+
+    .message-meta {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 0 0.15rem;
+    }
+
+    .bubble {
+      padding: 0.9rem 1.1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .message-row.is-user .bubble {
+      background-color: var(--user-bubble);
+      color: var(--user-text);
+      border-bottom-right-radius: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .message-row.is-bot .bubble {
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-bottom: 0.55rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      background-color: var(--brand-soft);
+      color: var(--brand);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .partial-note {
+      margin: 0 0 0.45rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .topic-title {
+      margin: 0 0 0.55rem;
+      font-size: 1.03rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.35;
+    }
+
+    .topic-body {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    /* Bloco de exemplos ABNT com botão Copiar */
+    .example-card {
+      margin-top: 0.9rem;
+      border-radius: 10px;
+      background-color: var(--bg-code);
+      border: 1px solid var(--border);
+      border-left: 3.5px solid var(--brand);
+      overflow: hidden;
+    }
+
+    .example-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.45rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg-surface-hover);
+    }
+
+    .example-label {
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .btn-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-surface);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .btn-copy:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .btn-copy.copiado {
+      background-color: var(--ok-bg);
+      color: var(--ok-text);
+      border-color: var(--ok-border);
+    }
+
+    .example-body {
+      padding: 0.7rem 0.85rem;
+      font-size: 0.86rem;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+
+    /* Relatório de Validação */
+    .report-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .report-title {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--text-primary);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.22rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.79rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .tone-ok {
+      background-color: var(--ok-bg);
+      color: var(--ok-text);
+      border-color: var(--ok-border);
+    }
+
+    .tone-warn {
+      background-color: var(--warn-bg);
+      color: var(--warn-text);
+      border-color: var(--warn-border);
+    }
+
+    .tone-err {
+      background-color: var(--err-bg);
+      color: var(--err-text);
+      border-color: var(--err-border);
+    }
+
+    .report-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .report-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.55rem 0.7rem;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-code);
+      border: 1px solid var(--border);
+      font-size: 0.88rem;
+      white-space: normal;
+    }
+
+    .report-badge {
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.16rem 0.45rem;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      margin-top: 0.12rem;
+    }
+
+    .report-ref {
+      color: var(--text-muted);
+      font-size: 0.79rem;
+      margin-left: 0.25rem;
+    }
+
+    /* Chips de subtópicos */
+    .chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .chip-btn {
+      padding: 0.34rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid var(--brand-border);
+      background-color: var(--bg-surface);
+      color: var(--brand);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .chip-btn:hover {
+      background-color: var(--brand);
+      border-color: var(--brand);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Composer (sem texto abaixo) */
+    .composer-area {
+      padding: 0.65rem 1.25rem 1rem;
+      background-color: var(--bg-app);
+      flex-shrink: 0;
+    }
+
+    .composer-box {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      gap: 0.55rem;
+      padding: 0.55rem 0.65rem 0.55rem 0.95rem;
+      border-radius: var(--radius-lg);
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-md);
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .composer-box:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow-md);
+    }
+
+    .composer-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      resize: none;
+      min-height: 26px;
+      max-height: 180px;
+      padding: 0.35rem 0;
+      outline: none;
+    }
+
+    .composer-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .composer-right {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-shrink: 0;
+      padding-bottom: 0.1rem;
+    }
+
+    .char-counter {
+      font-size: 0.74rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .char-counter.over-limit {
+      color: var(--err-text);
+      font-weight: 700;
+    }
+
+    .btn-send {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background-color: var(--brand);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .btn-send:hover {
+      background-color: var(--brand-hover);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsivo (Drawer mobile) */
+    @media (max-width: 860px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: min(86vw, 300px);
+        transform: translateX(-100%);
+        transition: transform 0.22s ease;
+        box-shadow: var(--shadow-md);
+      }
+
+      .sidebar.aberta {
+        transform: translateX(0);
+      }
+
+      .btn-menu-mobile,
+      .btn-fechar-drawer {
+        display: grid;
+      }
+
+      .chat-scroll {
+        padding: 1rem 0.85rem 0.75rem;
+      }
+
+      .composer-area {
+        padding: 0.5rem 0.85rem 0.85rem;
+      }
+
+      .quick-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .message-content {
+        max-width: 90%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div id="drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+
+    <aside id="sidebar" class="sidebar" aria-label="Navegação do Manual e Validadores">
+      <div class="sidebar-header">
+        <div class="brand">
+          <span class="brand-icon" aria-hidden="true">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </span>
+          <h1 class="brand-title">Assistente TCC — UDF</h1>
+        </div>
+        <button type="button" id="btn-fechar-drawer" class="btn-fechar-drawer" aria-label="Fechar menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-scroll">
+        <nav aria-label="Capítulos do Manual">
+          <p class="nav-section-label">Capítulos do Manual</p>
+          <div id="lista-capitulos" class="nav-list"></div>
+        </nav>
+
+        <nav aria-label="Validadores de TCC">
+          <p class="nav-section-label">Validadores de TCC</p>
+          <div id="lista-validadores" class="nav-list">
+            <button type="button" class="nav-btn nav-btn-validator" data-validar="resumo" aria-pressed="false">
+              <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+              <span class="nav-btn-title">Validar Resumo</span>
+            </button>
+            <button type="button" class="nav-btn nav-btn-validator" data-validar="citacao" aria-pressed="false">
+              <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+              <span class="nav-btn-title">Validar Citação</span>
+            </button>
+            <button type="button" class="nav-btn nav-btn-validator" data-validar="referencia" aria-pressed="false">
+              <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+              <span class="nav-btn-title">Validar Referência</span>
+            </button>
+            <button type="button" class="nav-btn nav-btn-validator" data-validar="estrutura" aria-pressed="false">
+              <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+              <span class="nav-btn-title">Validar Estrutura do TCC</span>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-actions">
+        <button type="button" id="btn-nova-conversa" class="action-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          <span>Nova conversa</span>
+        </button>
+        <button type="button" id="btn-tema" class="action-btn" aria-pressed="false">
+          <span id="icone-tema" aria-hidden="true" style="display:inline-flex;"></span>
+          <span id="texto-tema">Tema escuro</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button
+          type="button"
+          id="btn-menu-mobile"
+          class="btn-menu-mobile"
+          aria-label="Abrir menu lateral"
+          aria-expanded="false"
+          aria-controls="sidebar"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+
+        <div id="mode-indicator" class="mode-indicator" role="status" aria-live="polite">
+          <span class="mode-dot" aria-hidden="true"></span>
+          <span id="mode-text">Consulta ao Manual</span>
+          <button
+            type="button"
+            id="btn-cancelar-modo"
+            class="btn-cancelar-pill"
+            aria-label="Cancelar modo de validação"
+            hidden
+          >&times;</button>
+        </div>
+      </header>
+
+      <div id="chat-scroll" class="chat-scroll">
+        <div class="chat-inner">
+          <section id="welcome-screen" class="welcome-screen" aria-label="Boas-vindas">
+            <div class="welcome-emblem" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            </div>
+            <div class="welcome-heading">
+              <h2>Como posso ajudar no seu TCC?</h2>
+              <p>Tire dúvidas sobre o Manual ABNT da UDF (2020) ou valide trechos do seu trabalho pela barra lateral.</p>
+            </div>
+            <div id="quick-grid" class="quick-grid"></div>
+          </section>
+
+          <section
+            id="area-conversa"
+            role="log"
+            aria-live="polite"
+            aria-label="Histórico da conversa"
+            style="display: flex; flex-direction: column; gap: 1.25rem;"
+          ></section>
+        </div>
+      </div>
+
+      <form id="formulario-chat" class="composer-area" novalidate>
+        <div class="composer-box">
+          <label for="campo-mensagem" class="sr-only">Digite sua dúvida ou cole um trecho do TCC</label>
+          <textarea
+            id="campo-mensagem"
+            class="composer-input"
+            rows="1"
+            placeholder="Pergunte uma norma (ex.: tamanho da margem, seção 3.4.2) ou cole um trecho..."
+          ></textarea>
+          <div class="composer-right">
+            <span id="contador-caracteres" class="char-counter" aria-live="off">0 / 5000</span>
+            <button type="submit" class="btn-send" aria-label="Enviar mensagem">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script src="manual-udf.js"></script>
+  <script src="agente.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      const bot = window.BotTCC;
+      const manual = window.MANUAL_UDF;
+      const indice = bot.criarIndiceManual(manual);
+      let memoria = bot.criarMemoriaInicial();
+
+      const titulosCapitulos = new Set(manual.capitulos.map(function (c) { return c.titulo; }));
+      const mapaTopicos = {};
+      manual.topicos.forEach(function (t) { mapaTopicos[t.id] = t; });
+
+      const SUBTITULOS_CAPITULOS = {
+        estrutura: 'Pré, textuais e pós-textuais',
+        referencias: 'NBR 6023 e 20 modelos',
+        citacoes: 'NBR 10520 e notas',
+        apresentacao: 'NBR 14724'
+      };
+
+      const ICONES_CAPITULOS = {
+        estrutura: '<svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
+        referencias: '<svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+        citacoes: '<svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>',
+        apresentacao: '<svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+      };
+
+      const PERGUNTAS_RAPIDAS = [
+        'Quais são as margens e o espaçamento?',
+        'Como citar mais de 3 autores?',
+        'Quais elementos são obrigatórios no TCC?',
+        'Quantas palavras deve ter o resumo?'
+      ];
+
+      const ROTULOS_MODO = {
+        resumo: 'Validando Resumo — cole o texto abaixo',
+        citacao: 'Validando Citação — cole o trecho abaixo',
+        referencia: 'Validando Referência — cole o texto abaixo',
+        estrutura: 'Validando Estrutura — cole o sumário abaixo'
+      };
+
+      const SVG_LUA = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      const SVG_SOL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+      const SVG_BOT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>';
+      const SVG_USER = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+      const SVG_COPIAR = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      const SVG_CHECK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+      const SVG_SETA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const btnMenuMobile = document.getElementById('btn-menu-mobile');
+      const btnFecharDrawer = document.getElementById('btn-fechar-drawer');
+      const listaCapitulos = document.getElementById('lista-capitulos');
+      const botoesValidar = document.querySelectorAll('button[data-validar]');
+      const btnNovaConversa = document.getElementById('btn-nova-conversa');
+      const btnTema = document.getElementById('btn-tema');
+      const iconeTema = document.getElementById('icone-tema');
+      const textoTema = document.getElementById('texto-tema');
+
+      const modeIndicator = document.getElementById('mode-indicator');
+      const modeText = document.getElementById('mode-text');
+      const btnCancelarModo = document.getElementById('btn-cancelar-modo');
+
+      const chatScroll = document.getElementById('chat-scroll');
+      const welcomeScreen = document.getElementById('welcome-screen');
+      const quickGrid = document.getElementById('quick-grid');
+      const areaConversa = document.getElementById('area-conversa');
+
+      const formulario = document.getElementById('formulario-chat');
+      const campoMensagem = document.getElementById('campo-mensagem');
+      const contadorCaracteres = document.getElementById('contador-caracteres');
+
+      let temaEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      function aplicarTema() {
+        document.documentElement.setAttribute('data-theme', temaEscuro ? 'dark' : 'light');
+        iconeTema.innerHTML = temaEscuro ? SVG_SOL : SVG_LUA;
+        textoTema.textContent = temaEscuro ? 'Tema claro' : 'Tema escuro';
+        btnTema.setAttribute('aria-pressed', temaEscuro ? 'true' : 'false');
+      }
+
+      function alternarDrawer(abrir) {
+        sidebar.classList.toggle('aberta', abrir);
+        backdrop.classList.toggle('visivel', abrir);
+        btnMenuMobile.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+      }
+
+      function rolarParaFinal() {
+        chatScroll.scrollTop = chatScroll.scrollHeight;
+      }
+
+      function ajustarAlturaInput() {
+        campoMensagem.style.height = 'auto';
+        campoMensagem.style.height = Math.min(campoMensagem.scrollHeight, 180) + 'px';
+      }
+
+      function atualizarContador() {
+        const total = campoMensagem.value.length;
+        contadorCaracteres.textContent = total + ' / ' + bot.LIMITE_CARACTERES;
+        contadorCaracteres.classList.toggle('over-limit', total > bot.LIMITE_CARACTERES);
+      }
+
+      function atualizarEstadosUI() {
+        const botoesCap = listaCapitulos.querySelectorAll('button[data-capitulo]');
+        botoesCap.forEach(function (btn) {
+          const ativo = !memoria.modoValidacao && btn.getAttribute('data-capitulo') === memoria.capituloAtual;
+          btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+        });
+
+        botoesValidar.forEach(function (btn) {
+          const ativo = btn.getAttribute('data-validar') === memoria.modoValidacao;
+          btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+        });
+
+        if (memoria.modoValidacao) {
+          modeIndicator.classList.add('modo-validacao');
+          modeText.textContent = ROTULOS_MODO[memoria.modoValidacao] || 'Modo de validação ativo';
+          btnCancelarModo.hidden = false;
+        } else {
+          modeIndicator.classList.remove('modo-validacao');
+          modeText.textContent = 'Consulta ao Manual';
+          btnCancelarModo.hidden = true;
+        }
+      }
+
+      function montarSidebarCapitulos() {
+        listaCapitulos.textContent = '';
+        manual.capitulos.forEach(function (cap) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'nav-btn';
+          btn.setAttribute('data-capitulo', cap.id);
+          btn.setAttribute('aria-pressed', 'false');
+
+          btn.innerHTML = ICONES_CAPITULOS[cap.id] || ICONES_CAPITULOS.referencias;
+
+          const body = document.createElement('span');
+          body.className = 'nav-btn-body';
+
+          const title = document.createElement('span');
+          title.className = 'nav-btn-title';
+          title.textContent = cap.titulo;
+
+          const sub = document.createElement('span');
+          sub.className = 'nav-btn-sub';
+          sub.textContent = SUBTITULOS_CAPITULOS[cap.id] || cap.paginas;
+
+          body.appendChild(title);
+          body.appendChild(sub);
+          btn.appendChild(body);
+
+          btn.addEventListener('click', function () {
+            alternarDrawer(false);
+            enviarMensagem(cap.titulo);
+          });
+
+          listaCapitulos.appendChild(btn);
+        });
+      }
+
+      function montarPerguntasRapidas() {
+        quickGrid.textContent = '';
+        PERGUNTAS_RAPIDAS.forEach(function (pergunta) {
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className = 'quick-card';
+
+          const span = document.createElement('span');
+          span.textContent = pergunta;
+          card.appendChild(span);
+
+          const setaWrap = document.createElement('span');
+          setaWrap.innerHTML = SVG_SETA;
+          card.appendChild(setaWrap);
+
+          card.addEventListener('click', function () {
+            enviarMensagem(pergunta);
+          });
+
+          quickGrid.appendChild(card);
+        });
+      }
+
+      function copiarTexto(texto, botao) {
+        function sinalizarCopiado() {
+          botao.classList.add('copiado');
+          botao.innerHTML = SVG_CHECK + '<span>Copiado!</span>';
+          window.setTimeout(function () {
+            botao.classList.remove('copiado');
+            botao.innerHTML = SVG_COPIAR + '<span>Copiar</span>';
+          }, 1800);
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(texto).then(sinalizarCopiado).catch(function () {
+            copiarFallback(texto, sinalizarCopiado);
+          });
+        } else {
+          copiarFallback(texto, sinalizarCopiado);
+        }
+      }
+
+      function copiarFallback(texto, callback) {
+        const temp = document.createElement('textarea');
+        temp.value = texto;
+        temp.setAttribute('readonly', '');
+        temp.style.position = 'fixed';
+        temp.style.left = '-9999px';
+        document.body.appendChild(temp);
+        temp.select();
+        try {
+          document.execCommand('copy');
+          callback();
+        } catch (_err) {
+          // Sem acesso à área de transferência neste ambiente
+        }
+        document.body.removeChild(temp);
+      }
+
+      function adicionarMensagemAluno(texto) {
+        welcomeScreen.hidden = true;
+
+        const row = document.createElement('article');
+        row.className = 'message-row is-user';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar avatar-user';
+        avatar.innerHTML = SVG_USER;
+
+        const content = document.createElement('div');
+        content.className = 'message-content';
+
+        const meta = document.createElement('span');
+        meta.className = 'message-meta';
+        meta.textContent = 'Você';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = texto;
+
+        content.appendChild(meta);
+        content.appendChild(bubble);
+        row.appendChild(avatar);
+        row.appendChild(content);
+        areaConversa.appendChild(row);
+        rolarParaFinal();
+      }
+
+      function renderizarRelatorio(bubble, relatorio) {
+        const header = document.createElement('div');
+        header.className = 'report-header';
+
+        const title = document.createElement('span');
+        title.className = 'report-title';
+        title.textContent = relatorio.titulo;
+
+        const pill = document.createElement('span');
+        const tom = relatorio.status === 'Aprovado'
+          ? 'tone-ok'
+          : (relatorio.status === 'Aprovado com ressalvas' ? 'tone-warn' : 'tone-err');
+        pill.className = 'status-pill ' + tom;
+        pill.textContent = relatorio.status;
+
+        header.appendChild(title);
+        header.appendChild(pill);
+        bubble.appendChild(header);
+
+        const ul = document.createElement('ul');
+        ul.className = 'report-list';
+
+        relatorio.itens.forEach(function (item) {
+          const li = document.createElement('li');
+          li.className = 'report-item';
+
+          const badge = document.createElement('span');
+          const tomItem = item.nivel === 'OK' ? 'tone-ok' : (item.nivel === 'ATENCAO' ? 'tone-warn' : 'tone-err');
+          badge.className = 'report-badge ' + tomItem;
+          badge.textContent = item.nivel === 'OK' ? '[OK]' : (item.nivel === 'ATENCAO' ? '[ATENÇÃO]' : '[FALTA/ERRO]');
+
+          const textWrap = document.createElement('div');
+          const strong = document.createElement('strong');
+          strong.textContent = item.titulo + ': ';
+          const detalhe = document.createTextNode(item.detalhe);
+          const ref = document.createElement('span');
+          ref.className = 'report-ref';
+          ref.textContent = '(' + item.referencia + ')';
+
+          textWrap.appendChild(strong);
+          textWrap.appendChild(detalhe);
+          textWrap.appendChild(ref);
+
+          li.appendChild(badge);
+          li.appendChild(textWrap);
+          ul.appendChild(li);
+        });
+
+        bubble.appendChild(ul);
+      }
+
+      function adicionarMensagemBot(resultado) {
+        welcomeScreen.hidden = true;
+
+        const row = document.createElement('article');
+        row.className = 'message-row is-bot';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar avatar-bot';
+        avatar.innerHTML = SVG_BOT;
+
+        const content = document.createElement('div');
+        content.className = 'message-content';
+
+        const meta = document.createElement('span');
+        meta.className = 'message-meta';
+        meta.textContent = 'Assistente UDF';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+
+        if (resultado.tipo === 'validacao' && resultado.relatorio) {
+          renderizarRelatorio(bubble, resultado.relatorio);
+        } else if (resultado.tipo === 'topico' && resultado.topicoId && mapaTopicos[resultado.topicoId]) {
+          const topicoObj = mapaTopicos[resultado.topicoId];
+
+          const badge = document.createElement('span');
+          badge.className = 'section-badge';
+          badge.textContent = 'Seção ' + topicoObj.secao + ' • ' + topicoObj.paginas;
+          bubble.appendChild(badge);
+
+          if (resultado.intencao === 'busca_parcial') {
+            const nota = document.createElement('p');
+            nota.className = 'partial-note';
+            nota.textContent = 'Tópico relacionado encontrado no Manual da UDF:';
+            bubble.appendChild(nota);
+          }
+
+          const h3 = document.createElement('h3');
+          h3.className = 'topic-title';
+          h3.textContent = topicoObj.titulo;
+          bubble.appendChild(h3);
+
+          const body = document.createElement('p');
+          body.className = 'topic-body';
+          body.textContent = topicoObj.conteudo;
+          bubble.appendChild(body);
+
+          if (topicoObj.exemplos) {
+            const exCard = document.createElement('div');
+            exCard.className = 'example-card';
+
+            const exHeader = document.createElement('div');
+            exHeader.className = 'example-header';
+
+            const exLabel = document.createElement('span');
+            exLabel.className = 'example-label';
+            exLabel.textContent = 'Modelos e exemplos do Manual UDF';
+
+            const btnCopy = document.createElement('button');
+            btnCopy.type = 'button';
+            btnCopy.className = 'btn-copy';
+            btnCopy.innerHTML = SVG_COPIAR + '<span>Copiar</span>';
+            btnCopy.addEventListener('click', function () {
+              copiarTexto(topicoObj.exemplos, btnCopy);
+            });
+
+            exHeader.appendChild(exLabel);
+            exHeader.appendChild(btnCopy);
+
+            const exBody = document.createElement('div');
+            exBody.className = 'example-body';
+            exBody.textContent = topicoObj.exemplos;
+
+            exCard.appendChild(exHeader);
+            exCard.appendChild(exBody);
+            bubble.appendChild(exCard);
+          }
+        } else {
+          bubble.textContent = resultado.resposta;
+        }
+
+        content.appendChild(meta);
+        content.appendChild(bubble);
+
+        // Renderiza chips APENAS para subtópicos (nunca duplica os 4 capítulos da sidebar)
+        const subtopicosChips = Array.isArray(resultado.chips)
+          ? resultado.chips.filter(function (titulo) { return !titulosCapitulos.has(titulo); })
+          : [];
+
+        if (subtopicosChips.length > 0) {
+          const chipsWrap = document.createElement('div');
+          chipsWrap.className = 'chips-wrap';
+          chipsWrap.setAttribute('role', 'group');
+          chipsWrap.setAttribute('aria-label', 'Subtópicos relacionados');
+
+          subtopicosChips.forEach(function (tituloChip) {
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'chip-btn';
+            chip.textContent = tituloChip;
+            chip.addEventListener('click', function () {
+              enviarMensagem(tituloChip);
+            });
+            chipsWrap.appendChild(chip);
+          });
+
+          content.appendChild(chipsWrap);
+        }
+
+        row.appendChild(avatar);
+        row.appendChild(content);
+        areaConversa.appendChild(row);
+        rolarParaFinal();
+      }
+
+      function enviarMensagem(texto) {
+        const limpo = String(texto || '').trim();
+        if (!limpo) return;
+        adicionarMensagemAluno(limpo);
+        const resultado = bot.processarMensagem(limpo, indice, memoria);
+        atualizarEstadosUI();
+        adicionarMensagemBot(resultado);
+      }
+
+      function iniciarNovaConversa() {
+        memoria = bot.criarMemoriaInicial();
+        areaConversa.textContent = '';
+        welcomeScreen.hidden = false;
+        campoMensagem.value = '';
+        ajustarAlturaInput();
+        atualizarContador();
+        atualizarEstadosUI();
+        alternarDrawer(false);
+        campoMensagem.focus();
+      }
+
+      // Eventos
+      btnMenuMobile.addEventListener('click', function () {
+        alternarDrawer(!sidebar.classList.contains('aberta'));
+      });
+
+      btnFecharDrawer.addEventListener('click', function () {
+        alternarDrawer(false);
+      });
+
+      backdrop.addEventListener('click', function () {
+        alternarDrawer(false);
+      });
+
+      document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape' && sidebar.classList.contains('aberta')) {
+          alternarDrawer(false);
+          btnMenuMobile.focus();
+        }
+      });
+
+      botoesValidar.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const tipo = btn.getAttribute('data-validar');
+          alternarDrawer(false);
+          enviarMensagem('/validar ' + tipo);
+          campoMensagem.focus();
+        });
+      });
+
+      btnCancelarModo.addEventListener('click', function () {
+        enviarMensagem('cancelar');
+        campoMensagem.focus();
+      });
+
+      btnNovaConversa.addEventListener('click', iniciarNovaConversa);
+
+      btnTema.addEventListener('click', function () {
+        temaEscuro = !temaEscuro;
+        aplicarTema();
+      });
+
+      formulario.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        const texto = campoMensagem.value;
+        if (!texto.trim()) return;
+        campoMensagem.value = '';
+        ajustarAlturaInput();
+        atualizarContador();
+        enviarMensagem(texto);
+        campoMensagem.focus();
+      });
+
+      campoMensagem.addEventListener('input', function () {
+        ajustarAlturaInput();
+        atualizarContador();
+      });
+
+      campoMensagem.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' && !ev.shiftKey) {
+          ev.preventDefault();
+          if (typeof formulario.requestSubmit === 'function') {
+            formulario.requestSubmit();
+          } else {
+            formulario.dispatchEvent(new Event('submit', { cancelable: true }));
+          }
+        }
+      });
+
+      // Inicialização
+      aplicarTema();
+      montarSidebarCapitulos();
+      montarPerguntasRapidas();
+      atualizarContador();
+      atualizarEstadosUI();
+    })();
+  </script>
+</body>
+</html>
