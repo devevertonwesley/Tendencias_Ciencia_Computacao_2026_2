@@ -3,12 +3,13 @@
 **Disciplina:** Tendências de Ciência da Computação — Unidade 4  
 **Professora:** Kadidja Valéria  
 **Projeto:** Assistente do Manual de TCC — UDF  
-**Grupo:** `Everton Wesley Pereira Oliveira`
+**Aluno:** Everton Wesley Pereira Oliveira
 
 ## Links do Projeto
 
 - **Repositório GitHub:** [Tendencias_Ciencia_Computacao_2026_2](https://github.com/devevertonwesley/Tendencias_Ciencia_Computacao_2026_2)
 - **Documentação (`README.md`):** [README.md — Unidade 04](https://github.com/devevertonwesley/Tendencias_Ciencia_Computacao_2026_2/blob/main/Unidade%2004/README.md)
+
 ---
 
 ## 1. 05/11 — Criação de Agentes de IA *(1,0 ponto)*
@@ -38,7 +39,8 @@
 
 ## 3. 19/11 — Viés Algorítmico, Ética e Responsabilidade Social *(1,0 ponto)*
 
-- **Combate a alucinações:** IAs generativas podem inventar normas ABNT, páginas ou modelos de referências inexistentes. Por isso, a IA generativa (Gemini) foi usada apenas como apoio no desenvolvimento (com revisão da equipe), enquanto a execução do chatbot é **100% determinística** e restrita ao manual oficial da UDF.
+- **Redução de viés algorítmico:** por não depender de modelos probabilísticos treinados em bases opacas, as decisões e validações seguem regras explícitas, auditáveis e baseadas exclusivamente na norma institucional da UDF.
+- **Combate a alucinações:** IAs generativas podem inventar normas ABNT, páginas ou modelos de referências inexistentes. Por isso, a IA generativa (Gemini) foi usada apenas como apoio no desenvolvimento (com revisão do autor), enquanto a execução do chatbot é **100% determinística** e restrita ao manual oficial da UDF.
 - **Privacidade dos dados:** todo o processamento ocorre localmente no navegador; nenhum trecho inédito do TCC colado pelo aluno sai da máquina ou é enviado a servidores externos.
 - **Acessibilidade e inclusão:** ferramenta gratuita, 100% offline, responsiva (desktop e mobile), com suporte a teclado/ARIA e alternância de tema claro/escuro.
 - **Transparência:** as limitações do validador determinístico estão documentadas no `README.md`, deixando claro que ele apoia a revisão técnica, mas não substitui o orientador nem a biblioteca.
@@ -49,15 +51,15 @@
 
 ### Roteiro de Demonstração ao Vivo (3 a 5 minutos)
 
-1. **Abrir a aplicação:** acessar o link do GitHub Pages (ou abrir `index.html` diretamente no navegador para demonstrar o funcionamento offline).
-2. **Consulta rápida na tela inicial:** clicar em *"Quais são as margens e o espaçamento?"* e mostrar o selo `Seção 4.1 • pág. 40` e o botão **Copiar** nos exemplos.
-3. **Busca livre e por número de seção:**
-   - Digitar: `como citar mais de 3 autores?` → retorna `Seção 2.1.1` (`et al.`).
+1. **Abrir a aplicação:** abrir `index.html` diretamente no navegador (duplo clique) para demonstrar o funcionamento 100% offline.
+2. **Consulta rápida na tela inicial:** clicar em *"Quais são as margens e o espaçamento?"* e mostrar o selo `Seção 4.1 • pág. 40`.
+3. **Busca livre, busca por seção e cópia de exemplos:**
+   - Digitar: `como citar mais de 3 autores?` → retorna `Seção 2.1.1` (`et al.`) e demonstrar o botão **Copiar** nos exemplos oficiais.
    - Digitar: `seção 3.4.2` → abre diretamente `Citação Direta Longa`.
 4. **Demonstração do Validador de TCC:**
    - Clicar em **Validar Referência** e colar uma referência com erros:
      ```text
-     ANÔNIMO. Manual sem autor identificado. https://exemplo.com.br/manual
+     ANÔNIMO. Manual sem autor identificado. [https://exemplo.com.br/manual](https://exemplo.com.br/manual)
      ```
      *(Mostra os alertas `[FALTA/ERRO]`: proibição de "Anônimo", ano ausente, falta de `Disponível em:` e `Acesso em:`.)*
    - Enviar uma referência válida via comando direto:
@@ -78,13 +80,13 @@
 ## 5. Repositório GitHub — Integração da Solução *(1,0 ponto)*
 
 ```text
-bot-duvidas/
+Unidade 04/
 ├── index.html       # Interface moderna (sidebar, drawer mobile, Light/Dark Mode, SVGs inline)
 ├── manual-udf.js    # Conteúdo estruturado do Manual de TCC da UDF (2020) + sinônimos ABNT
 ├── agente.js        # Motor determinístico BM25, fluxo conversacional e 4 validadores de TCC
 ├── testes.js        # 27 testes automatizados em Node.js puro (zero dependências)
-├── README.md        # Documentação técnica completa com diagrama Mermaid
+├── README.md        # Documentação técnica completa com fluxograma da arquitetura
 └── LICENSE          # Licença MIT
 ```
 
-> **Uso de IA:** o código e a documentação foram desenvolvidos com apoio de IA generativa (Gemini) e revisados pela equipe. Em tempo de execução, o assistente opera de forma 100% determinística e offline, sem uso de IA.
+> **Uso de IA:** o código e a documentação foram desenvolvidos com apoio de IA generativa (Gemini) e revisados pelo autor. Em tempo de execução, o assistente opera de forma 100% determinística e offline, sem uso de IA.
