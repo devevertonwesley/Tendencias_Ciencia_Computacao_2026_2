@@ -9,17 +9,13 @@
 
 Chatbot determinístico, leve e 100% offline para consultar todas as normas do **Manual de Elaboração de Trabalhos Acadêmicos da UDF (Brasília, 2020)** e validar automaticamente trechos reais de TCC (Resumo, Citação, Referência e Estrutura) diretamente no navegador — sem IA generativa, sem API, sem servidor e sem instalação de pacotes.
 
-- **Repositório GitHub:** [Tendencias_Ciencia_Computacao_2026_2](https://github.com/devevertonwesley/Tendencias_Ciencia_Computacao_2026_2)
-- **Pasta do Projeto (Unidade 04):** [Unidade 04 no GitHub](https://github.com/devevertonwesley/Tendencias_Ciencia_Computacao_2026_2/tree/main/Unidade%2004)
-- **Aplicação online (GitHub Pages):** [Abrir Assistente do Manual de TCC — UDF](https://devevertonwesley.github.io/Tendencias_Ciencia_Computacao_2026_2/Unidade%2004/index.html)
-
 ---
 
 ## 1. Visão Geral e Motivação
 
 Durante a redação de um Trabalho de Conclusão de Curso (TCC), estudantes frequentemente interrompem a escrita para conferir detalhes recorrentes das normas da ABNT: tamanho das margens, número mínimo de palavras no resumo, uso de `et al.` ou `apud`, formatação de citações diretas longas e modelos de referências de sites, leis ou artigos. Consultar PDFs extensos a cada dúvida é lento e propenso a erros.
 
-O **Assistente do Manual de TCC — UDF** resolve esse problema oferecendo em uma única interface web offline:
+O **Assistente do Manual de TCC — UDF** resolve esse problema oferecendo em uma única interface local executada diretamente no navegador (sem internet):
 - **Consulta instantânea** por navegação estruturada (capítulos e subtópicos) ou busca em linguagem natural via algoritmo **Okapi BM25**.
 - **Validação automática e determinística** de trechos reais do TCC colados pelo estudante, devolvendo um checklist objetivo com indicação exata da seção e da página do manual.
 
@@ -50,7 +46,7 @@ Todo o conteúdo, exemplos e regras de validação foram extraídos fielmente de
 - **Validador determinístico para 4 tipos de trechos:** verifica automaticamente **Resumo**, **Citação**, **Referência** e **Estrutura do TCC**, gerando relatório com status geral (`Aprovado`, `Aprovado com ressalvas` ou `Necessita correções`) e selos `[OK]`, `[ATENÇÃO]` e `[FALTA/ERRO]`.
 - **Cópia rápida de modelos ABNT:** blocos destacados de exemplos oficiais com botão **"Copiar"** e confirmação visual (`Copiado!`).
 - **Interface moderna com tema claro e escuro:** alternância entre Light Mode e Dark Mode via variáveis CSS puras, opção de **Nova conversa** e ícones 100% em SVG inline.
-- **100% offline e zero dependências:** funciona abrindo `index.html` com duplo clique, sem internet, sem CDN e sem `npm install`.
+- **100% offline e zero dependências:** funciona abrindo `index.html` com duplo clique direto do disco (`file://`), sem internet, sem CDN e sem `npm install`.
 
 ---
 
@@ -69,20 +65,7 @@ Todo o conteúdo, exemplos e regras de validação foram extraídos fielmente de
 
 O motor em `agente.js` opera de forma **100% determinística**, sem modelos probabilísticos externos nem chamadas de rede:
 
-```mermaid
-flowchart TD
-    A["Entrada do usuário (até 5000 chars)"] --> B{"Comando ou modo\nde validação ativo?"}
-    B -- "Sim (com texto)" --> C["Validador Determinístico\nResumo | Citação | Referência | Estrutura"]
-    C --> D["Relatório estruturado\nStatus + [OK] / [ATENÇÃO] / [FALTA/ERRO]"]
-    B -- "Sim (sem texto)" --> E["Ativa modo de espera na sessão\ne orienta o aluno a colar o trecho"]
-    B -- "Não" --> F{"Capítulo principal ou\nnúmero de seção exato?"}
-    F -- "Capítulo (1 a 4)" --> G["Resumo do capítulo +\nchips clicáveis de subtópicos"]
-    F -- "Seção (ex.: 3.4.2)" --> H["Retorna tópico exato +\nexemplos e subtópicos irmãos"]
-    F -- "Pergunta livre" --> I["Pipeline Lexical\nNormalização → Stopwords →\nSinônimos ABNT → Radicais (5 chars)"]
-    I --> J["Ranking Okapi BM25\nk1=1.5 | b=0.75 | boost 2.5x título/seção"]
-    J -- "Score >= 0.9" --> K["Melhor tópico + exemplos oficiais\n+ até 3 subtópicos relacionados"]
-    J -- "Abaixo do limiar" --> L["Informa não encontrado\ne sugere reformulação"]
-```
+<img width="3655" height="1536" alt="mermaid-diagram-2026-11-24-150746" src="https://github.com/user-attachments/assets/49914c61-6eff-4af6-bddd-b99932745481" />
 
 ### Pipeline de processamento textual
 1. **Normalização:** converte para minúsculas, remove diacríticos (`normalize('NFD')`) e elimina pontuações irrelevantes.
@@ -115,7 +98,7 @@ Cada validador aplica regras verificáveis extraídas diretamente do Manual da U
 
 ```text
 bot-duvidas/
-├── index.html       # App web responsivo em tela cheia (sidebar + drawer mobile, Light/Dark Mode, SVGs inline, cópia rápida e relatórios visuais)
+├── index.html       # Interface responsiva em tela cheia executada localmente no navegador (sidebar + drawer mobile, Light/Dark Mode, SVGs inline, cópia rápida e relatórios visuais)
 ├── manual-udf.js    # Base completa e estruturada dos 4 capítulos do Manual de TCC da UDF (2020) + dicionário de sinônimos ABNT
 ├── agente.js        # Indexador textual, motor de busca Okapi BM25, fluxo conversacional e os 4 validadores determinísticos
 ├── testes.js        # Suíte com 27 testes automatizados em Node.js puro (assert nativo, zero dependências)
@@ -127,10 +110,10 @@ bot-duvidas/
 
 ## 7. Como Executar, Testar e Publicar
 
-### Executar localmente no navegador (sem servidor)
+### Executar localmente no navegador (sem servidor e sem internet)
 1. Clone ou baixe o repositório.
-2. Abra `index.html` diretamente no navegador (duplo clique no arquivo).
-3. Não há etapa de build, instalação ou conexão com a internet.
+2. Dê duplo clique em `index.html`. O navegador abre o arquivo direto do disco (`file://`) apenas como leitor local, sem precisar de internet ou servidor.
+3. Não há etapa de build, instalação ou conexão com a rede.
 
 ### Rodar os testes automatizados (Node.js puro)
 A partir da pasta do projeto, execute:
@@ -151,7 +134,9 @@ node testes.js
 - Validador de Estrutura (10 obrigatórios + opcionais aprovados; faltantes e pré-textuais numerados reprovados).
 - Fluxo interativo (`/validar citacao` + texto na mensagem seguinte) e fluxo inline (`validar referencia: ...`).
 
-### Publicar no GitHub Pages
+### Publicar no GitHub Pages (opcional — apenas para compartilhar por link)
+Opcional para quem preferir distribuir um link sem baixar a pasta; mesmo acessando pelo link, toda a busca e a validação continuam rodando localmente no dispositivo do usuário, sem envio de dados a servidores.
+
 1. Envie o conteúdo da pasta `bot-duvidas/` para um repositório no GitHub.
 2. Acesse **Settings → Pages** no repositório.
 3. Em **Build and deployment**, selecione **Deploy from a branch**, escolha a branch principal (`main`) e a pasta raiz (`/`).
@@ -216,4 +201,8 @@ node testes.js
 ## 12. Licença e Créditos
 
 - **Licença:** distribuído sob a [Licença MIT](LICENSE).
+- VALÉRIA, Kadidja. **Guia de Estudos A1: Criação de Agentes de IA e Ética Aplicada — Síntese da Unidade 4.** Material orientativo, UDF, 2026.
+- SERPRO. **Serpro Bots — Desenvolvendo Chatbots: Fluxo de Trabalho.** Disponível em: <https://serprobots.estaleiro.serpro.gov.br/docs/dev/>. Acesso em: nov. 2026.
 - **Créditos do conteúdo normativo:** *Manual para Elaboração de Trabalhos Acadêmicos: compilação das normas da ABNT* — Organização: **Biblioteca Governador Eurico Rezende**, Centro Universitário do Distrito Federal (**UDF**), Brasília, 2020.
+
+- **Uso de IA:** o código e a documentação foram desenvolvidos com apoio de IA generativa (Gemini) e revisados pela equipe.
