@@ -15,7 +15,7 @@ Chatbot determinístico, leve e 100% offline para consultar todas as normas do *
 
 Durante a redação de um Trabalho de Conclusão de Curso (TCC), estudantes frequentemente interrompem a escrita para conferir detalhes recorrentes das normas da ABNT: tamanho das margens, número mínimo de palavras no resumo, uso de `et al.` ou `apud`, formatação de citações diretas longas e modelos de referências de sites, leis ou artigos. Consultar PDFs extensos a cada dúvida é lento e propenso a erros.
 
-O **Assistente do Manual de TCC — UDF** resolve esse problema oferecendo em uma única interface web offline:
+O **Assistente do Manual de TCC — UDF** resolve esse problema oferecendo em uma única interface local executada diretamente no navegador (sem internet):
 - **Consulta instantânea** por navegação estruturada (capítulos e subtópicos) ou busca em linguagem natural via algoritmo **Okapi BM25**.
 - **Validação automática e determinística** de trechos reais do TCC colados pelo estudante, devolvendo um checklist objetivo com indicação exata da seção e da página do manual.
 
@@ -46,7 +46,7 @@ Todo o conteúdo, exemplos e regras de validação foram extraídos fielmente de
 - **Validador determinístico para 4 tipos de trechos:** verifica automaticamente **Resumo**, **Citação**, **Referência** e **Estrutura do TCC**, gerando relatório com status geral (`Aprovado`, `Aprovado com ressalvas` ou `Necessita correções`) e selos `[OK]`, `[ATENÇÃO]` e `[FALTA/ERRO]`.
 - **Cópia rápida de modelos ABNT:** blocos destacados de exemplos oficiais com botão **"Copiar"** e confirmação visual (`Copiado!`).
 - **Interface moderna com tema claro e escuro:** alternância entre Light Mode e Dark Mode via variáveis CSS puras, opção de **Nova conversa** e ícones 100% em SVG inline.
-- **100% offline e zero dependências:** funciona abrindo `index.html` com duplo clique, sem internet, sem CDN e sem `npm install`.
+- **100% offline e zero dependências:** funciona abrindo `index.html` com duplo clique direto do disco (`file://`), sem internet, sem CDN e sem `npm install`.
 
 ---
 
@@ -98,7 +98,7 @@ Cada validador aplica regras verificáveis extraídas diretamente do Manual da U
 
 ```text
 bot-duvidas/
-├── index.html       # App web responsivo em tela cheia (sidebar + drawer mobile, Light/Dark Mode, SVGs inline, cópia rápida e relatórios visuais)
+├── index.html       # Interface responsiva em tela cheia executada localmente no navegador (sidebar + drawer mobile, Light/Dark Mode, SVGs inline, cópia rápida e relatórios visuais)
 ├── manual-udf.js    # Base completa e estruturada dos 4 capítulos do Manual de TCC da UDF (2020) + dicionário de sinônimos ABNT
 ├── agente.js        # Indexador textual, motor de busca Okapi BM25, fluxo conversacional e os 4 validadores determinísticos
 ├── testes.js        # Suíte com 27 testes automatizados em Node.js puro (assert nativo, zero dependências)
@@ -110,10 +110,10 @@ bot-duvidas/
 
 ## 7. Como Executar, Testar e Publicar
 
-### Executar localmente no navegador (sem servidor)
+### Executar localmente no navegador (sem servidor e sem internet)
 1. Clone ou baixe o repositório.
-2. Abra `index.html` diretamente no navegador (duplo clique no arquivo).
-3. Não há etapa de build, instalação ou conexão com a internet.
+2. Dê duplo clique em `index.html`. O navegador abre o arquivo direto do disco (`file://`) apenas como leitor local, sem precisar de internet ou servidor.
+3. Não há etapa de build, instalação ou conexão com a rede.
 
 ### Rodar os testes automatizados (Node.js puro)
 A partir da pasta do projeto, execute:
@@ -134,7 +134,9 @@ node testes.js
 - Validador de Estrutura (10 obrigatórios + opcionais aprovados; faltantes e pré-textuais numerados reprovados).
 - Fluxo interativo (`/validar citacao` + texto na mensagem seguinte) e fluxo inline (`validar referencia: ...`).
 
-### Publicar no GitHub Pages
+### Publicar no GitHub Pages (opcional — apenas para compartilhar por link)
+Opcional para quem preferir distribuir um link sem baixar a pasta; mesmo acessando pelo link, toda a busca e a validação continuam rodando localmente no dispositivo do usuário, sem envio de dados a servidores.
+
 1. Envie o conteúdo da pasta `bot-duvidas/` para um repositório no GitHub.
 2. Acesse **Settings → Pages** no repositório.
 3. Em **Build and deployment**, selecione **Deploy from a branch**, escolha a branch principal (`main`) e a pasta raiz (`/`).
