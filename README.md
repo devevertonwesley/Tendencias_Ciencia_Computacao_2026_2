@@ -1,70 +1,121 @@
 # Tendências em Ciência da Computação — 2026.2
 
-## O que é 
-Este repositório reúne materiais práticos e o plano de aulas para a unidade sobre "Engenharia de Prompt" e temas relacionados a tendências em Ciência da Computação, organizado para uso em aulas do semestre 2026.2. Contém o plano de aulas em PDF, atividades (Atividade 01 em PDF; Atividade 02 com materiais em Markdown) e recursos de apoio para aplicação em sala e avaliação.
+Repositório oficial das atividades práticas, estudos dirigidos, documentações e projeto final desenvolvidos ao longo do semestre **2026.2** na disciplina **Tendências em Ciência da Computação** (Centro Universitário UDF — Brasília).
 
-## Objetivo
-Objetivo principal: capacitar estudantes a entenderem e aplicarem práticas de engenharia de prompt para sistemas que utilizam IA, definir requisitos mínimos (MVP) para uma aplicação, avaliar resultados gerados por modelos, identificar limites e riscos, e refletir criticamente sobre as respostas produzidas pela IA.
-
-Resultados de aprendizagem esperados
-- Identificar usos de IA em casos práticos e distinguir tipos de interação.
-- Construir e iterar prompts (inicial → final) com contexto, restrições e formato de resposta definidos.
-- Comparar variantes de prompts e analisar diferenças nos resultados.
-- Avaliar resultados quanto à adequação, viés e limitações; aplicar revisão humana quando necessário.
-
-## Público alvo
-Destinado a:
-- Alunos de graduação em Ciência da Computação (disciplina: Tendências em Ciência da Computação — semestre 2026.2).
-- Docentes e monitores que irão aplicar as atividades em sala.
-- Pesquisadores e profissionais interessados em ensino de engenharia de prompt.
-
-## Prazos
-Planejado para o semestre 2026.2. O cronograma detalhado (datas, sequência de aulas e avaliação) está no arquivo de plano de aulas: `PlanodeAulas_Tendencias_EngPrompt_IA_Professora Kadidja_2026_2_5f_Everton.pdf`.
-
-## Local onde deve estar
-Materiais e estrutura principais neste repositório:
-- `PlanodeAulas_Tendencias_EngPrompt_IA_Professora Kadidja_2026_2_5f_Everton.pdf` — plano de aulas completo.
-- `Unidade 01 /Atividade 01 - Identificando a IA.pdf` — atividade inicial em PDF.
-- `Unidade 01 /Atividade 02 /` — pasta com materiais para praticar engenharia de prompt (readme.md, prompts.md, comparacao.md, reflexao.md, variacoes*.md).
-
-## Como será feito
-Sugestão de uso em sala (fluxo mínimo recomendado):
-1. Ler o plano de aulas (PDF) para entender objetivos, critérios de avaliação e cronograma.
-2. Realizar a Atividade 01 (identificação de IA): leitura e exercício em PDF.
-3. Seguir a Atividade 02: criar um prompt inicial para um caso de uso proposto (MVP), documentar contexto e restrições, e gerar respostas.
-4. Produzir variações do prompt (veja `variacao1.md`, `variacao2.md`, `variacao3.md`) e comparar resultados usando `comparacao.md` como guia.
-5. Formular o prompt final (arquivo: `prompts.md` e `readme.md` na pasta da atividade) e submeter a reflexão crítica (`reflexao.md`) sobre limitações, vieses e melhorias.
-6. Entregar os artefatos solicitados pelo professor: prompt inicial, prompt final, relatório comparativo e reflexão.
-
-Formatos de entrega e avaliação (resumo):
-- Prompt inicial e final (texto) com indicação de contexto, entradas esperadas e restrições.
-- Relatório curto (1–2 páginas) comparando resultados e justificando escolhas.
-- Reflexão sobre ética, vieses e limitações das respostas.
-- Critérios: clareza do prompt, adequação do contexto, formato de resposta, crítica reflexiva e justificativa das alterações.
-
-## Estrutura do repositório
-```text
-LICENSE                              (licença do repositório)
-PlanodeAulas_Tendencias_EngPrompt_IA_Professora Kadidja_2026_2_5f_Everton.pdf  (plano de aulas completo)
-README.md                            (este arquivo)
-Unidade 01/                          (materiais da unidade 1)
-  Atividade 01 - Identificando a IA.pdf
-  Atividade 02/
-    readme.md
-    prompts.md
-    comparacao.md
-    reflexao.md
-    variacao1.md
-    variacao2.md
-    variacao3.md
-```
-
-## Contribuição
-- Leia o plano de aulas antes de propor alterações à sequência ou às atividades.
-- Sugestões de melhoria podem ser enviadas via Issues ou Pull Requests; descreva claramente a alteração proposta e o motivo didático.
-
-## Licença
-Veja o arquivo `LICENSE` para detalhes sobre a licença do repositório.
+**Professora:** Kadidja Valéria  
+**Aluno:** Everton Wesley Pereira Oliveira  
+**Plano de Aulas:** [PlanodeAulas_Tendencias_EngPrompt_IA_Professora Kadidja_2026_2_5f_Everton.pdf](./PlanodeAulas_Tendencias_EngPrompt_IA_Professora%20Kadidja_2026_2_5f_Everton.pdf)
 
 ---
-Arquivo gerado com base no plano de aulas e nos materiais da unidade (Unidade 01). Para ajustes específicos (datas, critérios de avaliação ou instrumentos de nota), consulte a versão oficial do plano de aulas no PDF.
+
+## Visão Geral
+
+O repositório acompanha a evolução completa das **4 unidades da disciplina**, partindo dos fundamentos de Engenharia de Prompt e refinamento iterativo até programação assistida por IA, desenvolvimento *low-code* e a construção de um agente conversacional determinístico aplicado a um problema real do ambiente acadêmico.
+
+### Mapa das Unidades
+
+| Unidade | Tema Principal | Principais Artefatos |
+| :---: | :--- | :--- |
+| **01** | Engenharia e Refinamento de Prompts | Prompts iterativos, variações, comparação, reflexão crítica e laboratório de refinamento |
+| **02** | Programação Assistida por IA e Automação | Notebook prático colaborativo (`.ipynb`) e documentação de programação assistida |
+| **03** | Desenvolvimento Low-Code | Documentação do SGE em Bubble (*low-code*) e formulário de respostas (`.pdf`) |
+| **04** | Projeto Final — Agente Conversacional e Ética | **Assistente do Manual de TCC — UDF** (chatbot 100% offline), testes automatizados e roteiro de apresentação |
+
+---
+
+## Detalhamento por Unidade
+
+### Unidade 01 — Engenharia e Refinamento de Prompts
+Prática estruturada de criação, comparação e iteração de prompts com definição de contexto, restrições, formato de saída e análise crítica de limitações e vieses.
+
+- **Atividade 02 — Construção, Variações e Análise Comparativa:**
+  - [readme.md](./Unidade%2001%20/Atividade%2002%20/readme.md) — visão geral e contexto da atividade.
+  - [prompts.md](./Unidade%2001%20/Atividade%2002%20/prompts.md) — registro dos prompts utilizados.
+  - [variacao1.md](./Unidade%2001%20/Atividade%2002%20/variacao1.md), [variacao2.md](./Unidade%2001%20/Atividade%2002%20/variacao2.md) e [variacao3.md](./Unidade%2001%20/Atividade%2002%20/variacao3.md) — testes de variações de prompt.
+  - [comparacao.md](./Unidade%2001%20/Atividade%2002%20/comparacao.md) — análise comparativa entre os resultados obtidos.
+  - [reflexao.md](./Unidade%2001%20/Atividade%2002%20/reflexao.md) — reflexão crítica sobre adequação, limitações e melhorias.
+- **Atividade 03 — Laboratório de Refinamento de Prompts:**
+  - [Atividade_prática_Laboratório_de_Refinamento_de_Prompts.md](./Unidade%2001%20/Atividade%2003/Atividade_pr%C3%A1tica_Laborat%C3%B3rio_de_Refinamento_de_Prompts.md)
+  - [Refinamento_de_Prompts.md](./Unidade%2001%20/Atividade%2003/Refinamento_de_Prompts.md)
+
+### Unidade 02 — Programação Assistida por IA e Automação
+Exploração de fluxos colaborativos de codificação com apoio de IA e automação de tarefas de desenvolvimento.
+
+- [Collaborative_AI_Programming_AtividadePrática.ipynb](./Unidade%2002/Collaborative_AI_Programming_AtividadePr%C3%A1tica.ipynb) — atividade prática em Jupyter Notebook / Google Colab.
+- [Programacao_Assistida.md](./Unidade%2002/Programacao_Assistida.md) — registros e síntese da prática.
+- [Material_estudante_programacao_assistida_automacao.md](./Unidade%2002/Material_estudante_programacao_assistida_automacao.md) — material de apoio do estudante.
+
+### Unidade 03 — Desenvolvimento Low-Code (Bubble)
+Documentação técnica e registro de atividade aplicada ao desenvolvimento *low-code* com a plataforma Bubble para o Sistema de Gerenciamento de Estacionamento (SGE).
+
+- [documenta_o_sge_bubble_low_code.md](./Unidade%2003/documenta_o_sge_bubble_low_code.md) — documentação do projeto SGE em Bubble.
+- [form_resposta.pdf](./Unidade%2003/form_resposta.pdf) — formulário de entrega/respostas da unidade.
+
+### Unidade 04 — Projeto Final: Assistente do Manual de TCC — UDF
+Desenvolvimento de um chatbot determinístico, leve e **100% offline** em HTML, CSS e JavaScript puros (sem IA generativa em execução, sem API e sem servidor) para consulta às normas do *Manual para Elaboração de Trabalhos Acadêmicos da UDF (2020)* e validação automática de trechos de TCC (Resumo/Abstract, Citação, Referência, Sumário/Estrutura e Cruzamento Citações × Referências).
+
+- [README.md da Unidade 04](./Unidade%2004/README.md) — documentação técnica completa da arquitetura, algoritmo Okapi BM25, validadores e testes.
+- [apresentacao.md](./Unidade%2004/apresentacao.md) — roteiro consolidado das entregas e da demonstração ao vivo.
+- **Código-fonte:** pasta [`Unidade 04/Chatbot - duvidas/bot-duvidas/`](./Unidade%2004/Chatbot%20-%20duvidas/bot-duvidas/) (`index.html`, `agente.js`, `manual-udf.js`, `testes.js`).
+
+---
+
+## Estrutura do Repositório
+
+```text
+Tendencias_Ciencia_Computacao_2026_2/
+├── LICENSE
+├── PlanodeAulas_Tendencias_EngPrompt_IA_Professora Kadidja_2026_2_5f_Everton.pdf
+├── README.md
+├── Unidade 01 /
+│   ├── Atividade 02 /
+│   │   ├── comparacao.md
+│   │   ├── prompts.md
+│   │   ├── readme.md
+│   │   ├── reflexao.md
+│   │   ├── variacao1.md
+│   │   ├── variacao2.md
+│   │   └── variacao3.md
+│   └── Atividade 03/
+│       ├── Atividade_prática_Laboratório_de_Refinamento_de_Prompts.md
+│       └── Refinamento_de_Prompts.md
+├── Unidade 02/
+│   ├── Collaborative_AI_Programming_AtividadePrática.ipynb
+│   ├── Material_estudante_programacao_assistida_automacao.md
+│   └── Programacao_Assistida.md
+├── Unidade 03/
+│   ├── documenta_o_sge_bubble_low_code.md
+│   └── form_resposta.pdf
+└── Unidade 04/
+    ├── README.md
+    ├── apresentacao.md
+    └── Chatbot - duvidas/
+        └── bot-duvidas/
+            ├── LICENSE
+            ├── README.md
+            ├── agente.js
+            ├── index.html
+            ├── manual-udf.js
+            └── testes.js
+```
+
+---
+
+## Como Executar os Artefatos Práticos
+
+### Notebook da Unidade 02
+- Abra `Unidade 02/Collaborative_AI_Programming_AtividadePrática.ipynb` diretamente no **Google Colab**, **Jupyter Notebook** ou **VS Code** (com a extensão Jupyter).
+
+### Chatbot da Unidade 04 (100% Offline)
+1. Navegue até `Unidade 04/Chatbot - duvidas/bot-duvidas/`.
+2. Dê duplo clique em `index.html` para abrir diretamente no navegador (sem servidor e sem internet).
+3. Para rodar a suíte de testes automatizados (Node.js puro, sem `npm install`):
+   ```bash
+   node "Unidade 04/Chatbot - duvidas/bot-duvidas/testes.js"
+   ```
+
+---
+
+## Licença
+
+Este repositório está licenciado nos termos do arquivo [LICENSE](./LICENSE).
