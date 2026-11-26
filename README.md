@@ -10,26 +10,26 @@ Repositório oficial das atividades práticas, estudos dirigidos, documentaçõe
 
 ## Visão Geral
 
-O repositório acompanha a evolução completa das **4 unidades da disciplina**, partindo dos fundamentos de Engenharia de Prompt e refinamento iterativo até programação assistida por IA, desenvolvimento *low-code* e a construção de um agente conversacional determinístico aplicado a um problema real do ambiente acadêmico.
+O repositório acompanha a evolução completa das **4 unidades da disciplina**, partindo dos fundamentos de Engenharia de Prompt e refinamento iterativo até programação assistida por IA, desenvolvimento *low-code* e a construção de um agente conversacional em 4 camadas aplicado a um problema real do ambiente acadêmico.
 
 ### Mapa das Unidades
 
 | Unidade | Tema Principal | Principais Artefatos |
 | :---: | :--- | :--- |
-| **01** | Engenharia e Refinamento de Prompts | Prompts iterativos, variações, comparação, reflexão crítica e laboratório de refinamento |
-| **02** | Programação Assistida por IA e Automação | Notebook prático colaborativo (`.ipynb`) e documentação de programação assistida |
-| **03** | Desenvolvimento Low-Code | Documentação do SGE em Bubble (*low-code*) e formulário de respostas (`.pdf`) |
-| **04** | Projeto Final — Agente Conversacional e Ética | **Assistente do Manual de TCC — UDF** (chatbot 100% offline), testes automatizados e roteiro de apresentação |
+| **01** | Engenharia e Refinamento de Prompts | Prompts iterativos, 3 variações, comparação, reflexão crítica e laboratório de refinamento (Sistema de Rastreamento de Equipamentos) |
+| **02** | Programação Assistida por IA e Automação | Notebook prático colaborativo (`.ipynb`), estudo sobre *Vibe Coding* e documentação de automação em Python (Jogo da Forca) |
+| **03** | Desenvolvimento Low-Code | Documentação do SGE em **Bubble.io** (*low-code* + Agente de IA) e formulário de respostas (`.pdf`) |
+| **04** | Projeto Final — Agente de IA e Ética Aplicada | **Assistente do Manual de TCC — UDF** (`bot-duvidas` v2.0.0: agente em 4 camadas, 2 modos, 5 validadores, 52 testes automatizados), entrega teórica e roteiro de apresentação |
 
 ---
 
 ## Detalhamento por Unidade
 
 ### Unidade 01 — Engenharia e Refinamento de Prompts
-Prática estruturada de criação, comparação e iteração de prompts com definição de contexto, restrições, formato de saída e análise crítica de limitações e vieses.
+Estudo prático de construção, comparação e iteração de prompts aplicado ao levantamento de requisitos de um **Sistema de Rastreamento de Equipamentos** em instituições de ensino.
 
 - **Atividade 02 — Construção, Variações e Análise Comparativa:**
-  - [readme.md](./Unidade%2001%20/Atividade%2002%20/readme.md) — visão geral e contexto da atividade.
+  - [readme.md](./Unidade%2001%20/Atividade%2002%20/readme.md) — visão geral e contexto do estudo.
   - [prompts.md](./Unidade%2001%20/Atividade%2002%20/prompts.md) — registro dos prompts utilizados.
   - [variacao1.md](./Unidade%2001%20/Atividade%2002%20/variacao1.md), [variacao2.md](./Unidade%2001%20/Atividade%2002%20/variacao2.md) e [variacao3.md](./Unidade%2001%20/Atividade%2002%20/variacao3.md) — testes de variações de prompt.
   - [comparacao.md](./Unidade%2001%20/Atividade%2002%20/comparacao.md) — análise comparativa entre os resultados obtidos.
@@ -39,24 +39,25 @@ Prática estruturada de criação, comparação e iteração de prompts com defi
   - [Refinamento_de_Prompts.md](./Unidade%2001%20/Atividade%2003/Refinamento_de_Prompts.md)
 
 ### Unidade 02 — Programação Assistida por IA e Automação
-Exploração de fluxos colaborativos de codificação com apoio de IA e automação de tarefas de desenvolvimento.
+Exploração de fluxos colaborativos de codificação com apoio de IA, reflexão sobre *Vibe Coding* e desenvolvimento assistido de um jogo da forca em Python.
 
 - [Collaborative_AI_Programming_AtividadePrática.ipynb](./Unidade%2002/Collaborative_AI_Programming_AtividadePr%C3%A1tica.ipynb) — atividade prática em Jupyter Notebook / Google Colab.
-- [Programacao_Assistida.md](./Unidade%2002/Programacao_Assistida.md) — registros e síntese da prática.
-- [Material_estudante_programacao_assistida_automacao.md](./Unidade%2002/Material_estudante_programacao_assistida_automacao.md) — material de apoio do estudante.
+- [Programacao_Assistida.md](./Unidade%2002/Programacao_Assistida.md) — análise do estudo *Vibe coding: programming through conversation with artificial intelligence* (Sarkar & Drosos, PPIG 2025).
+- [Material_estudante_programacao_assistida_automacao.md](./Unidade%2002/Material_estudante_programacao_assistida_automacao.md) — documentação da atividade prática de programação assistida e automação (jogo da forca em Python com Gemini).
 
-### Unidade 03 — Desenvolvimento Low-Code (Bubble)
-Documentação técnica e registro de atividade aplicada ao desenvolvimento *low-code* com a plataforma Bubble para o Sistema de Gerenciamento de Estacionamento (SGE).
+### Unidade 03 — Desenvolvimento Low-Code (Bubble.io)
+Documentação técnica e registro de atividade aplicada ao desenvolvimento *low-code* com **Bubble.io + Agente de IA** para o **SGE — Controle de Pátio e Caixa para Estacionamentos**.
 
-- [documenta_o_sge_bubble_low_code.md](./Unidade%2003/documenta_o_sge_bubble_low_code.md) — documentação do projeto SGE em Bubble.
+- [documenta_o_sge_bubble_low_code.md](./Unidade%2003/documenta_o_sge_bubble_low_code.md) — documentação completa da aplicação SGE no Bubble.io.
 - [form_resposta.pdf](./Unidade%2003/form_resposta.pdf) — formulário de entrega/respostas da unidade.
 
-### Unidade 04 — Projeto Final: Assistente do Manual de TCC — UDF
-Desenvolvimento de um chatbot determinístico, leve e **100% offline** em HTML, CSS e JavaScript puros (sem IA generativa em execução, sem API e sem servidor) para consulta às normas do *Manual para Elaboração de Trabalhos Acadêmicos da UDF (2020)* e validação automática de trechos de TCC (Resumo/Abstract, Citação, Referência, Sumário/Estrutura e Cruzamento Citações × Referências).
+### Unidade 04 — Projeto Final: Assistente do Manual de TCC — UDF (`bot-duvidas` v2.0.0)
+Desenvolvimento de um **agente conversacional em 4 camadas** (*Perceptiva → Cognitiva → Decisória → Executiva*) em HTML5, CSS3 e JavaScript puros (zero dependências externas) para consulta às normas do *Manual para Elaboração de Trabalhos Acadêmicos da UDF (2020)* e auditoria determinística de trechos de TCC (**Cruzar Citações × Referências**, **Referências Individual ou Lista A–Z**, **Sumário e Estrutura**, **Citação** e **Resumo/Abstract PT/EN**). Opera em **2 Modos**: **Modo 1 (100% offline, padrão)** com busca Okapi BM25, Interpretabilidade, Memória em 3 dimensões, Guardrails Adversariais e Guia Passo a Passo de Correção offline; e **Modo 2 (Prompt Dinâmico Parametrizado + IA Generativa opcional via Groq/Gemini com *fallback* offline)**.
 
-- [README.md da Unidade 04](./Unidade%2004/README.md) — documentação técnica completa da arquitetura, algoritmo Okapi BM25, validadores e testes.
-- [apresentacao.md](./Unidade%2004/apresentacao.md) — roteiro consolidado das entregas e da demonstração ao vivo.
-- **Código-fonte:** pasta [`Unidade 04/Chatbot - duvidas/bot-duvidas/`](./Unidade%2004/Chatbot%20-%20duvidas/bot-duvidas/) (`index.html`, `agente.js`, `manual-udf.js`, `testes.js`).
+- [README.md da Unidade 04](./Unidade%2004/README.md) — documentação técnica completa da arquitetura, algoritmo Okapi BM25, 5 validadores e 52 testes automatizados.
+- [apresentacao.md](./Unidade%2004/apresentacao.md) — roteiro consolidado das entregas da Unidade IV e da demonstração ao vivo.
+- [UNIDADE_IV_AGENTES_ETICA_PROJETO.md](./Unidade%2004/bot-duvidas/UNIDADE_IV_AGENTES_ETICA_PROJETO.md) — entrega teórica e técnica completa alinhada ao Guia de Estudos A1 (agentes, especificação, ética, privacidade e vieses).
+- **Código-fonte:** pasta [`Unidade 04/bot-duvidas/`](./Unidade%2004/bot-duvidas/) (`index.html`, `agente.js`, `manual-udf.js`, `testes.js`, `package.json`, `README.md`, `UNIDADE_IV_AGENTES_ETICA_PROJETO.md`, `LICENSE`).
 
 ---
 
@@ -89,14 +90,15 @@ Tendencias_Ciencia_Computacao_2026_2/
 └── Unidade 04/
     ├── README.md
     ├── apresentacao.md
-    └── Chatbot - duvidas/
-        └── bot-duvidas/
-            ├── LICENSE
-            ├── README.md
-            ├── agente.js
-            ├── index.html
-            ├── manual-udf.js
-            └── testes.js
+    └── bot-duvidas/
+        ├── LICENSE
+        ├── README.md
+        ├── UNIDADE_IV_AGENTES_ETICA_PROJETO.md
+        ├── agente.js
+        ├── index.html
+        ├── manual-udf.js
+        ├── package.json
+        └── testes.js
 ```
 
 ---
@@ -106,16 +108,22 @@ Tendencias_Ciencia_Computacao_2026_2/
 ### Notebook da Unidade 02
 - Abra `Unidade 02/Collaborative_AI_Programming_AtividadePrática.ipynb` diretamente no **Google Colab**, **Jupyter Notebook** ou **VS Code** (com a extensão Jupyter).
 
-### Chatbot da Unidade 04 (100% Offline)
-1. Navegue até `Unidade 04/Chatbot - duvidas/bot-duvidas/`.
-2. Dê duplo clique em `index.html` para abrir diretamente no navegador (sem servidor e sem internet).
-3. Para rodar a suíte de testes automatizados (Node.js puro, sem `npm install`):
+### Assistente do Manual de TCC — Unidade 04 (Modo 1 Offline + Modo 2 Opcional)
+1. Navegue até `Unidade 04/bot-duvidas/`.
+2. Dê duplo clique em `index.html` para abrir diretamente no navegador (`file://`, sem servidor e sem internet no Modo 1).
+3. *(Opcional)* No botão **Prompt Dinâmico / IA**, copie o prompt parametrizado (offline) ou insira uma chave de API gratuita (**Groq** ou **Gemini**) para ativar o Modo 2 com *fallback* automático para o Modo 1 Offline.
+4. Para rodar a suíte com os **52 testes automatizados** (Node.js puro, sem `npm install`):
    ```bash
-   node "Unidade 04/Chatbot - duvidas/bot-duvidas/testes.js"
+   node "Unidade 04/bot-duvidas/testes.js"
+   ```
+   Ou, dentro da pasta `Unidade 04/bot-duvidas/`:
+   ```bash
+   npm test
    ```
 
 ---
 
-## Licença
+## Licenças
 
-Este repositório está licenciado nos termos do arquivo [LICENSE](./LICENSE).
+- **Repositório geral:** licenciado sob **CC0 1.0 Universal (Domínio Público)**, conforme o arquivo [LICENSE](./LICENSE).
+- **Projeto `Unidade 04/bot-duvidas/`:** distribuído sob a **Licença MIT**, conforme [Unidade 04/bot-duvidas/LICENSE](./Unidade%2004/bot-duvidas/LICENSE).
