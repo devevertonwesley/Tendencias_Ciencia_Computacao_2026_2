@@ -1,13 +1,13 @@
 # Assistente do Manual de TCC — UDF
 
-![Offline](https://img.shields.io/badge/Execu%C3%A7%C3%A3o-100%25%20Offline-0f2c59?style=flat-square)
-![Sem IA](https://img.shields.io/badge/Motor-Sem%20IA%20Generativa-1d4ed8?style=flat-square)
-![Sem API](https://img.shields.io/badge/Depend%C3%AAncias-Sem%20API%20%7C%20Zero%20CDN-0369a1?style=flat-square)
+![Offline](https://img.shields.io/badge/Modo%201-Agente%204%20Camadas%20Offline-0f2c59?style=flat-square)
+![Prompt Dinâmico](https://img.shields.io/badge/Modo%202-Prompt%20Din%C3%A2mico%20%2F%20IA%20Opcional-1d4ed8?style=flat-square)
+![Zero Dependências](https://img.shields.io/badge/Depend%C3%AAncias-Zero%20Pacotes%20%7C%20Zero%20CDN-0369a1?style=flat-square)
 ![Stack](https://img.shields.io/badge/Stack-HTML%20%2B%20CSS%20%2B%20JS%20Puros-334155?style=flat-square)
 ![Normas](https://img.shields.io/badge/Padr%C3%A3o-ABNT%20%2F%20UDF%202020-166534?style=flat-square)
-![Testes](https://img.shields.io/badge/Testes-Node.js%20Puro%20(43%20casos)-15803d?style=flat-square)
+![Testes](https://img.shields.io/badge/Testes-Node.js%20Puro%20(52%20casos)-15803d?style=flat-square)
 
-Chatbot determinístico, leve e 100% offline para consultar todas as normas do **Manual de Elaboração de Trabalhos Acadêmicos da UDF (Brasília, 2020)** e validar automaticamente trechos reais de TCC (**Cruzar Citações × Referências**, **Referências Individual ou Lista A–Z**, **Sumário e Estrutura**, **Citação** e **Resumo/Abstract**) diretamente no navegador — sem IA generativa, sem API, sem servidor e sem instalação de pacotes.
+Agente conversacional em **4 camadas** (**Perceptiva → Cognitiva → Decisória → Executiva**), leve e **100% funcional offline** (com **Modo 2 de Prompt Dinâmico / IA Generativa opcional**), para consultar todas as normas do **Manual de Elaboração de Trabalhos Acadêmicos da UDF (Brasília, 2020)** e auditar trechos reais de TCC (**Cruzar Citações × Referências**, **Referências Individual ou Lista A–Z**, **Sumário e Estrutura**, **Citação** e **Resumo/Abstract**) com **Interpretabilidade**, **Memória em 3 dimensões**, **Guardrails Adversariais** e **Guia Passo a Passo de Correção offline**.
 
 ---
 
@@ -107,12 +107,15 @@ Cada validador aplica regras verificáveis extraídas diretamente do Manual da U
 
 ```text
 bot-duvidas/
-├── index.html       # App web responsivo em tela cheia (sidebar + drawer mobile, Light/Dark Mode, SVGs inline, cópia rápida, placeholder dinâmico e chip "Testar com exemplo")
-├── manual-udf.js    # Base completa e estruturada dos 4 capítulos do Manual de TCC da UDF (2020) + dicionário de sinônimos ABNT
-├── agente.js        # Indexador textual, motor Okapi BM25, fluxo conversacional e os 5 validadores determinísticos (limite de 15.000 caracteres)
-├── testes.js        # Suíte com 43 testes automatizados em Node.js puro (assert nativo, zero dependências)
-├── README.md        # Documentação técnica completa do projeto
-└── LICENSE          # Licença MIT
+├── index.html                           # App web responsivo (4 camadas, 2 modos, modal Ética/Memória, Feedback Loop, Light/Dark Mode)
+├── manual-udf.js                        # Base oficial dos 4 capítulos (52 tópicos) do Manual de TCC da UDF (2020) + 102 sinônimos ABNT
+├── agente.js                            # Agente 4 camadas, Okapi BM25, Memória Curta/Média/Longa, Guardrails, 5 Validadores, Guia Offline e Prompt Dinâmico
+├── testes.js                            # Suíte com 52 testes automatizados (funcionais, memória, adversariais e stress)
+├── package.json                         # Metadados do projeto e script `npm test`
+├── .gitignore                           # Proteção contra arquivos temporários e `.env`
+├── UNIDADE_IV_AGENTES_ETICA_PROJETO.md  # Entrega completa da Unidade IV alinhada ao Guia de Estudos A1 (UDF)
+├── README.md                            # Documentação técnica completa do projeto
+└── LICENSE                              # Licença MIT
 ```
 
 ---
@@ -122,31 +125,32 @@ bot-duvidas/
 ### Executar localmente no navegador (100% offline via `file://`)
 1. Clone ou baixe o repositório.
 2. Dê duplo clique no arquivo `index.html` para abri-lo diretamente no navegador (`file://`).
-3. Não há etapa de build, `npm install`, servidor local ou acesso à internet.
+3. No **Modo 1 (padrão)**, tudo funciona **100% offline** sem servidor, sem API e sem instalação de pacotes.
+4. No **Modo 2 (`Prompt Dinâmico / IA`)**, você pode **copiar o Prompt Dinâmico Parametrizado** (100% offline, pronto para qualquer LLM) ou, opcionalmente, informar uma chave de API gratuita (**Groq** ou **Gemini**, mantida apenas na RAM da aba) com *fallback* automático para o Modo 1 Offline.
 
 ### Rodar os testes automatizados (Node.js puro)
 A partir da pasta do projeto, execute:
 
 ```bash
 node testes.js
+# ou: npm test
 ```
 
-**Saída esperada:** `Resultado: 43 de 43 aprovados`
+**Saída esperada:** `Resultado: 52 de 52 aprovados`
 
-**O que os 43 testes cobrem:**
-- **Navegação e busca BM25 (16 casos):** saudação, os 4 capítulos, busca exata por seção (`3.4.2`, `1.8`), perguntas curtas, longas, sinônimos (`abstract`, `site`, `mais de 3 autores`, `Constituição`), paginação, apêndice vs. anexo e perguntas fora do escopo.
-- **Resumo e Abstract (5 casos):** Resumo válido (PT), texto curto/1ª pessoa/sem palavras-chave, excesso > 500 palavras/separador inválido, Abstract válido (EN) com `Keywords:` e Abstract com `we developed` e vírgulas.
-- **Citação (3 casos):** direta curta válida, longa com aspas/minúscula/sem página/reticências soltas, indireta e `apud`.
-- **Referências individual e em lote (6 casos):** livro e online válidos, rejeição de `"Anônimo"`/URL sem acesso, lista ordenada A–Z, detecção de item fora de ordem pelo nome, referência duplicada e mesma autoria com traço sublinear `______.`.
-- **Sumário e Estrutura (5 casos):** checklist completo (10 obrigatórios + opcionais), faltantes + pré-textuais numerados, salto de numeração (`1` → `3`) + separador inválido (`1. Introdução`), título sem indicativo numerado (`5 Referências`) e formato `APÊNDICE 1` vs. `APÊNDICE A –`.
-- **Cruzamento Citações × Referências (6 casos):** texto e lista consistentes (`Aprovado`), citação ausente nas referências, referência não citada (`Aprovado com ressalvas`), regra de `apud`, mistura proibida de Autor-Data com sistema Numérico e ausência de separador.
-- **Fluxos conversacionais e limite (2 casos):** modo interativo (`/validar citacao`, `/validar cruzamento`, `/validar citacoes referencias`), comando inline (`validar referencia: ...`) e limite de `15000` caracteres.
+**O que os 52 testes cobrem:**
+- **Navegação e busca BM25 (16 casos):** saudação, os 4 capítulos, busca exata por seção (`3.4.2`, `1.8`), perguntas curtas, longas, sinônimos, paginação, apêndice vs. anexo e perguntas fora do escopo.
+- **5 Validadores + Fluxos conversacionais (27 casos):** Resumo/Abstract (5), Citação (3), Referências individual e A–Z (6), Sumário/Estrutura (5), Cruzamento Citações × Referências (6) e comandos interativos/inline + limite de 15.000 chars (2).
+- **Arquitetura 4 Camadas, Memória e Feedback (3 casos):** rastreio de interpretabilidade (`Perceptiva → Cognitiva → Decisória → Executiva`), Memória Curta/Média com acompanhamento (`"qual a página?"`, `"e o exemplo?"`), Memória Longa desativada por padrão e Feedback Loop/Remediação.
+- **Guia de Correção Offline, Prompt Dinâmico e Modo IA (3 casos):** plano passo a passo local sem API, template parametrizado com contexto BM25/memória e chamada opcional com *fallback* offline automático.
+- **Testes Adversariais e Teste de Stress (3 casos):** bloqueio de *prompt injection*, recusa de plágio/fabricação de referências e stress test com 200 consultas consecutivas + texto > 15.000 caracteres.
 
 ### Publicar no GitHub Pages
-1. Envie o conteúdo da pasta `bot-duvidas/` para um repositório no GitHub.
-2. Acesse **Settings → Pages** no repositório.
-3. Em **Build and deployment**, selecione **Deploy from a branch**, escolha a branch principal (`main`) e a pasta raiz (`/`).
-4. Salve e aguarde ~1–2 minutos até o site estático entrar no ar.
+1. No repositório do GitHub, acesse **Settings → Pages**.
+2. Em **Build and deployment**, selecione **Deploy from a branch**, escolha `main` e a pasta `/ (root)`, e clique em **Save**.
+3. Aguarde ~1–2 minutos e acesse:
+   - Se `index.html` estiver na raiz: `https://<seu-usuario>.github.io/<nome-do-repo>/`
+   - Se estiver na subpasta `bot-duvidas/`: `https://<seu-usuario>.github.io/<nome-do-repo>/bot-duvidas/`
 
 ---
 
