@@ -1,0 +1,20 @@
+{
+  "name": "assistente-manual-tcc-udf",
+  "version": "2.0.0",
+  "description": "Agente conversacional em 4 camadas (offline padrão + Prompt Dinâmico/IA opcional) para consulta e auditoria do Manual de TCC da UDF (2020).",
+  "main": "agente.js",
+  "scripts": {
+    "test": "node testes.js"
+  },
+  "keywords": [
+    "agente-ia",
+    "chatbot",
+    "engenharia-de-prompt",
+    "etica-ia",
+    "bm25",
+    "abnt",
+    "tcc",
+    "udf"
+  ],
+  "license": "MIT"
+}
